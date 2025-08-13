@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --studiok-yellow: #FFD700; /* A vibrant yellow */
+            --studiok-yellow: #FFD700;
             --studiok-black: #1a1a1a;
             --studiok-white: #ffffff;
             --light-gray: #f0f0f0;
-            --medium-gray: #e0e0e0;
+            --medium-gray: #e9e9e9;
             --dark-gray: #333333;
         }
 
@@ -29,10 +29,12 @@
         }
 
         #chat-container {
-            width: 420px;
-            height: 650px;
+            width: 100%;
+            max-width: 420px;
+            height: 90vh;
+            max-height: 700px;
             background-color: var(--studiok-white);
-            border-radius: 16px;
+            border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
@@ -42,18 +44,19 @@
 
         #chat-header {
             background-color: var(--studiok-black);
-            padding: 15px;
+            padding: 15px 20px;
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-shrink: 0;
         }
 
+        /* --- CSS CHANGE IS HERE --- */
+        /* We're back to using a filter to turn the black PNG logo yellow */
         #logo {
-            height: 40px;
-            /* Using an SVG for a crisp logo. This is a generic "K" logo. 
-               You can replace the 'src' with a direct URL to studiok's official logo if you find one. */
-            content: url('https://studiok-online.com/media/06/61/87/1622037138/studiok-logo.svg');
-            filter: invert(90%) sepia(59%) saturate(1519%) hue-rotate(320deg) brightness(105%) contrast(102%); /* This filter turns the black SVG yellow */
+            height: 25px;
+            width: auto;
+            filter: brightness(0) saturate(100%) invert(89%) sepia(31%) saturate(4525%) hue-rotate(320deg) brightness(106%) contrast(103%);
         }
         
         #header-title {
@@ -62,92 +65,65 @@
             font-weight: 600;
         }
 
-
         #chat-box {
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
         }
-
-        /* Styling the scrollbar */
-        #chat-box::-webkit-scrollbar {
-            width: 8px;
-        }
-        #chat-box::-webkit-scrollbar-track {
-            background: var(--light-gray);
-        }
-        #chat-box::-webkit-scrollbar-thumb {
-            background-color: var(--medium-gray);
-            border-radius: 10px;
-            border: 2px solid var(--light-gray);
-        }
+        
+        #chat-box::-webkit-scrollbar { width: 8px; }
+        #chat-box::-webkit-scrollbar-track { background: transparent; }
+        #chat-box::-webkit-scrollbar-thumb { background-color: var(--medium-gray); border-radius: 10px; }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message {
             display: flex;
-            max-width: 80%;
+            max-width: 85%;
             margin-bottom: 15px;
             animation: slideIn 0.4s ease-out;
         }
 
         .message-content {
             padding: 12px 18px;
-            border-radius: 18px;
+            border-radius: 20px;
             font-size: 0.95em;
             line-height: 1.5;
+            word-wrap: break-word;
         }
         
-        .user-message {
-            margin-left: auto;
-            flex-direction: row-reverse;
-        }
-
-        .user-message .message-content {
-            background-color: var(--studiok-black);
-            color: var(--studiok-white);
-            border-bottom-right-radius: 4px;
-        }
+        .user-message { margin-left: auto; }
+        .user-message .message-content { background-color: var(--studiok-black); color: var(--studiok-white); border-bottom-right-radius: 5px; }
         
-        .bot-message {
-            margin-right: auto;
-        }
-        
-        .bot-message .message-content {
-            background-color: var(--medium-gray);
-            color: var(--dark-gray);
-            border-bottom-left-radius: 4px;
-        }
+        .bot-message { margin-right: auto; }
+        .bot-message .message-content { background-color: var(--medium-gray); color: var(--dark-gray); border-bottom-left-radius: 5px; }
 
         #input-area {
             display: flex;
             padding: 15px;
             border-top: 1px solid var(--medium-gray);
             background-color: var(--studiok-white);
+            flex-shrink: 0;
         }
 
         #user-input {
             flex-grow: 1;
             border: 2px solid var(--medium-gray);
-            border-radius: 20px;
-            padding: 10px 15px;
+            background-color: var(--light-gray);
+            border-radius: 25px;
+            padding: 12px 20px;
             font-size: 1em;
             font-family: 'Poppins', sans-serif;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, background-color 0.3s;
         }
 
         #user-input:focus {
             outline: none;
             border-color: var(--studiok-yellow);
+            background-color: var(--studiok-white);
         }
 
         #send-btn {
@@ -155,34 +131,33 @@
             color: var(--studiok-black);
             border: none;
             border-radius: 50%;
-            width: 44px;
-            height: 44px;
+            width: 50px;
+            height: 50px;
             margin-left: 10px;
             cursor: pointer;
             font-weight: 600;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-shrink: 0;
             transition: transform 0.2s ease, background-color 0.3s;
         }
 
         #send-btn:hover {
             transform: scale(1.1);
-            background-color: #ffd000;
+            background-color: #ffe033;
         }
         
-        #send-btn svg {
-            width: 24px;
-            height: 24px;
-        }
-
+        #send-btn svg { width: 24px; height: 24px; }
     </style>
 </head>
 <body>
     <div id="chat-container">
         <div id="chat-header">
-            <img id="logo" alt="studiok logo">
-            <div id="header-title">StudioK Produkthilfe</div>
+            <!-- --- HTML CHANGE IS HERE --- -->
+            <!-- We are now using a reliable, direct link to a PNG image -->
+            <img id="logo" src="https://i.imgur.com/Soz3sRk.png" alt="studiok logo">
+            <div id="header-title">AI Assistant</div>
         </div>
         <div id="chat-box">
             <div class="message bot-message">
@@ -192,7 +167,7 @@
         <div id="input-area">
             <input type="text" id="user-input" placeholder="Nachricht schreiben...">
             <button id="send-btn" aria-label="Send Message">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
                 </svg>
             </button>
@@ -213,7 +188,8 @@
             userInput.focus();
 
             try {
-               const response = await fetch('https://studiok-bot-backend.onrender.com/chat', {
+                // IMPORTANT: Make sure this URL is your live Render backend URL
+                const response = await fetch('https://studiok-bot-backend.onrender.com/chat', { 
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: messageText })
