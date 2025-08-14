@@ -69,13 +69,12 @@
             font-weight: 600;
         }
 
-        /* --- CSS ALIGNMENT FIX IS HERE --- */
         #chat-box {
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
-            display: flex; /* 1. Make the chat box a flex container */
-            flex-direction: column; /* 2. Stack messages vertically */
+            display: flex;
+            flex-direction: column;
         }
         
         #chat-box::-webkit-scrollbar { width: 8px; }
@@ -88,7 +87,7 @@
         }
 
         .message {
-            display: flex; /* This remains a flex container for the bubble content */
+            display: flex;
             max-width: 85%;
             margin-bottom: 15px;
             animation: slideIn 0.4s ease-out;
@@ -103,7 +102,7 @@
         }
         
         .user-message {
-            align-self: flex-end; /* 3. Tell user messages to align to the right */
+            align-self: flex-end;
         }
         .user-message .message-content {
             background-color: var(--studiok-black);
@@ -112,7 +111,7 @@
         }
         
         .bot-message {
-            align-self: flex-start; /* 4. Tell bot messages to align to the left */
+            align-self: flex-start;
         }
         .bot-message .message-content {
             background-color: var(--medium-gray);
@@ -126,8 +125,10 @@
             border-top: 1px solid var(--medium-gray);
             background-color: var(--studiok-white);
             flex-shrink: 0;
+            align-items: center; /* Vertically align items in the input area */
         }
 
+        /* --- FINAL CSS FIX IS HERE --- */
         #user-input {
             flex-grow: 1;
             border: 2px solid var(--medium-gray);
@@ -137,6 +138,7 @@
             font-size: 1em;
             font-family: 'Poppins', sans-serif;
             transition: border-color 0.3s, background-color 0.3s;
+            min-width: 0; /* This is the magic line that allows the input to shrink */
         }
 
         #user-input:focus {
@@ -158,7 +160,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-shrink: 0;
+            flex-shrink: 0; /* Prevents the button from shrinking */
             transition: transform 0.2s ease, background-color 0.3s;
         }
 
