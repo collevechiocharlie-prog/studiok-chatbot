@@ -17,21 +17,27 @@
             --dark-gray: #333333;
         }
 
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--light-gray);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 100%;
             margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
             color: var(--dark-gray);
         }
 
         #chat-container {
             width: 100%;
             max-width: 420px;
-            height: 90vh;
+            height: 100%;
             max-height: 700px;
             background-color: var(--studiok-white);
             border-radius: 20px;
@@ -51,8 +57,6 @@
             flex-shrink: 0;
         }
 
-        /* --- CSS CHANGE IS HERE --- */
-        /* We're back to using a filter to turn the black PNG logo yellow */
         #logo {
             height: 25px;
             width: auto;
@@ -65,10 +69,13 @@
             font-weight: 600;
         }
 
+        /* --- CSS ALIGNMENT FIX IS HERE --- */
         #chat-box {
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
+            display: flex; /* 1. Make the chat box a flex container */
+            flex-direction: column; /* 2. Stack messages vertically */
         }
         
         #chat-box::-webkit-scrollbar { width: 8px; }
@@ -81,7 +88,7 @@
         }
 
         .message {
-            display: flex;
+            display: flex; /* This remains a flex container for the bubble content */
             max-width: 85%;
             margin-bottom: 15px;
             animation: slideIn 0.4s ease-out;
@@ -95,11 +102,23 @@
             word-wrap: break-word;
         }
         
-        .user-message { margin-left: auto; }
-        .user-message .message-content { background-color: var(--studiok-black); color: var(--studiok-white); border-bottom-right-radius: 5px; }
+        .user-message {
+            align-self: flex-end; /* 3. Tell user messages to align to the right */
+        }
+        .user-message .message-content {
+            background-color: var(--studiok-black);
+            color: var(--studiok-white);
+            border-bottom-right-radius: 5px;
+        }
         
-        .bot-message { margin-right: auto; }
-        .bot-message .message-content { background-color: var(--medium-gray); color: var(--dark-gray); border-bottom-left-radius: 5px; }
+        .bot-message {
+            align-self: flex-start; /* 4. Tell bot messages to align to the left */
+        }
+        .bot-message .message-content {
+            background-color: var(--medium-gray);
+            color: var(--dark-gray);
+            border-bottom-left-radius: 5px;
+        }
 
         #input-area {
             display: flex;
@@ -154,8 +173,6 @@
 <body>
     <div id="chat-container">
         <div id="chat-header">
-            <!-- --- HTML CHANGE IS HERE --- -->
-            <!-- We are now using a reliable, direct link to a PNG image -->
             <img id="logo" src="https://i.imgur.com/Soz3sRk.png" alt="studiok logo">
             <div id="header-title">AI Assistant</div>
         </div>
